@@ -1,0 +1,11 @@
+{
+    "recommendations": [
+        "visualstudioexptteam.vscodeintellicode",
+        "dcasella.monokai-plusplus",
+        "ms-python.python",
+        "donjayamanne.python-extension-pack",
+        "littlefoxteam.vscode-python-test-adapter",
+        "kevinrose.vsc-python-indent",
+        "njpwerner.autodocstring"
+    ]
+}
