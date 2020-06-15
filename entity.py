@@ -26,6 +26,9 @@ class Entity:
         if self.ai:
             self.ai.owner = self
 
+    def name(self):
+        return self.name.capitalize()
+
     def move(self, dx, dy):
         # Move the entity by a given amount
         self.x += dx
