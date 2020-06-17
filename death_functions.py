@@ -9,7 +9,6 @@ def kill_player(player):
     player.char = "%"
     player.color = libtcod.dark_red
 
-    return "You died!", GameStates.PLAYER_DEAD
     return Message("You died!", libtcod.red), GameStates.PLAYER_DEAD
 
 
