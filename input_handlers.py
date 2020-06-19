@@ -1,5 +1,6 @@
 import tcod as libtcod
 from enum import Enum
+from game_states import GameStates
 
 
 class InputModes(Enum):
@@ -13,7 +14,18 @@ class InputModes(Enum):
     INPUT_NUMPAD = 2
 
 
-def handle_keys(key, input_mode):
+def handle_keys(key, game_state, input_mode):
+    if game_state == GameStates.PLAYERS_TURN:
+        return handle_player_turn_keys(key, input_mode)
+    elif game_state == GameStates.PLAYER_DEAD:
+        return handle_player_dead_keys(key)
+    elif game_state in (GameStates.SHOW_INVENTORY, GameStates.DROP_INVENTORY):
+        return handle_inventory_keys(key)
+
+    return {}
+
+
+def handle_player_turn_keys(key, input_mode):
     key_char = chr(key.c)
 
     if input_mode == InputModes.INPUT_VIM:
@@ -58,13 +70,37 @@ def handle_keys(key, input_mode):
     elif key_char == "i":
         return {"show_inventory": True}
 
+    elif key_char == "d":
+        return {"drop_inventory": True}
+
+    return handle_generic_keys(key)
+
+
+def handle_player_dead_keys(key):
+    key_char = chr(key.c)
+
+    if key_char == "i":
+        return {"show_inventory": True}
+
+    return handle_generic_keys(key)
+
+
+def handle_inventory_keys(key):
+    index = key.c - ord("a")
+
+    if index >= 0:
+        return {"inventory_index": index}
+
+    return handle_generic_keys(key)
+
+
+def handle_generic_keys(key):
+
     if key.vk == libtcod.KEY_ENTER and key.lalt:
         # Alt+Enter: toggle full screen
         return {"fullscreen": True}
-
     elif key.vk == libtcod.KEY_ESCAPE:
-        # Exit the game
+        # Exit the menu
         return {"exit": True}
 
-    # No key was pressed
     return {}
